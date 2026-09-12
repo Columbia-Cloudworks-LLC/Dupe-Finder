@@ -62,16 +62,17 @@ internal sealed class WindowsDeletionBackend : IDeletionBackend
 
     private static void Rename(SafeFileHandle handle, string destination)
     {
-        var name = System.Text.Encoding.Unicode.GetBytes(destination);
+        var name = System.Text.Encoding.Unicode.GetBytes(Path.GetFullPath(destination));
         var offset = IntPtr.Size == 8 ? 20 : 12;
-        var data = Marshal.AllocHGlobal(offset + name.Length);
+        var data = Marshal.AllocHGlobal(offset + name.Length + 2);
         try
         {
             for (var i = 0; i < offset; i++) Marshal.WriteByte(data, i, 0);
             Marshal.WriteInt32(data, IntPtr.Size == 8 ? 16 : 8, name.Length);
             Marshal.Copy(name, 0, data + offset, name.Length);
-            if (!SetFileInformationByHandle(handle, 3, data, (uint)(offset + name.Length)))
-                throw new IOException(new Win32Exception(Marshal.GetLastWin32Error()).Message);
+            Marshal.WriteInt16(data, offset + name.Length, 0);
+            if (!SetFileInformationByHandle(handle, 3, data, (uint)(offset + name.Length + 2)))
+                throw new IOException("Cannot stage the verified file: " + new Win32Exception(Marshal.GetLastWin32Error()).Message);
         }
         finally { Marshal.FreeHGlobal(data); }
     }
