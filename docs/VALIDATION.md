@@ -16,6 +16,8 @@ The generic .NET publish pipeline omitted the generated application PRI. The pro
 
 Windows can return an aggregate shell completion error after confirming a successful per-file recycle. Completion now requires the successful per-file recycle receipt and absence of the source; a successful receipt remains authoritative if later shell bookkeeping fails. The callback refuses a delete that is not marked recyclable.
 
+The hosted Windows runner exposed a missing explicit terminator in the native rename buffer. The buffer now includes a terminator and sufficient space; both core and native deletion suites pass on that runner.
+
 ## Manual inspection
 
 The startup window and current native Windows folder picker were visually inspected. The executable integration check covers the main scan and deletion view behavior.
