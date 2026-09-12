@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup><TargetFramework>net10.0-windows</TargetFramework><OutputType>Exe</OutputType></PropertyGroup>
+ <ItemGroup><ProjectReference Include="../../src/DupeFinder.Core/DupeFinder.Core.csproj" /><Compile Include="../../src/DupeFinder.App/WindowsDeletionBackend.cs" Link="WindowsDeletionBackend.cs" /><Compile Include="../../src/DupeFinder.App/RecycleProgressSink.cs" Link="RecycleProgressSink.cs" /></ItemGroup>
+</Project>
